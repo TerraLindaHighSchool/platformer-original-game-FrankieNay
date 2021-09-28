@@ -29,16 +29,10 @@ public class Level1 extends World
     {
         Door door = new Door();
         addObject(door,1175,42);
-        Player player = new Player();
-        addObject(player,427,57);
         Floor floor = new Floor();
         addObject(floor,600,800);
-        player.setLocation(1364,261);
-
         addObject(new Bomb(GRAVITY), 1050, 765);
-
-        Player player2 = new Player();
-        addObject(player2,24,760);
+        Player player = new Player(3, 5.6f, GRAVITY, 3, 3, Level2.class, MUSIC);
     }
         private final float GRAVITY = 0.0667f;
     private final GreenfootSound MUSIC = new GreenfootSound("zapsplat_024.mp3");
