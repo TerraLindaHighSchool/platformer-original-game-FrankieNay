@@ -33,6 +33,7 @@ public class Level1 extends World
         addObject(floor,600,800);
         addObject(new Bomb(GRAVITY), 1050, 765);
         Player player = new Player(3, 5.6f, GRAVITY, 3, 3, Level2.class, MUSIC);
+        addObject(player, 55, 693);
     }
         private final float GRAVITY = 0.0667f;
     private final GreenfootSound MUSIC = new GreenfootSound("zapsplat_024.mp3");
