@@ -39,6 +39,8 @@ public class Player extends Actor
         };
         
         STANDING_IMAGE = new GreenfootImage("standing.png");
+        health = new Health[maxHealth];
+        healthCount = 3;
         JUMP_FORCE = jumpForce;
         GRAVITY = gravity;
         NEXT_LEVEL = nextLevel;
@@ -47,7 +49,14 @@ public class Player extends Actor
         MUSIC = music;
         this.speed = speed;
     }
-    
+    public void gameOver()
+    {
+        if(healthCount == 0)
+        {
+            Greenfoot.setWorld(new gameOver());
+            MUSIC.stop();
+        }
+    }
     /**
      * Act - do whatever the Player wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -58,6 +67,8 @@ public class Player extends Actor
         jump();
         fall();
         onCollision();
+        gameOver();
+        
         
         
     
@@ -87,8 +98,14 @@ public class Player extends Actor
         {
             yVelocity = JUMP_FORCE;
             isJumping = true;
+            
         }
-        
+        if(Greenfoot.isKeyDown("up") && isOnGround())
+        {
+            yVelocity = JUMP_FORCE;
+            isJumping = true;
+            
+        }
         if(isJumping && yVelocity > 0.0)
         {
             setLocation(getX(), getY() - (int) yVelocity);
@@ -124,10 +141,12 @@ public class Player extends Actor
         return ground != null;
     }
      
-    private void onCollision( )
+    public void onCollision( )
     {
         if(isTouching(Door.class))
         {
+            setLocation (55, 693);
+            
             World world = null;
             try 
             {
@@ -142,16 +161,22 @@ public class Player extends Actor
             Greenfoot.setWorld(world);
         }
         
-        if(isTouching(Obstacle.class))
+          if(isTouching(Obstacle.class))
         {
+            Greenfoot.playSound("boom.wav");
             removeTouching(Obstacle.class);
+            getWorld().removeObject(health[healthCount - 1]);
+            healthCount--;
         }
+
         
         if(isTouching(Platform.class) && !isOnGround())
         {
             yVelocity = -1;
             fall();
         }
+        
+        
     }
     
    
@@ -195,7 +220,20 @@ public class Player extends Actor
         {
             isWalking = false;
         }
+        
     } 
+    
+    public void addedToWorld(World world)
+    {   
+        health[0] = new Health();
+        world.addObject(health[0], 23, 20);
+        health[1] = new Health();
+        world.addObject(health[1], 56, 20);
+        health[2] = new Health();
+        world.addObject(health[2], 89, 20);
+    }
+
+
 }
         
         
