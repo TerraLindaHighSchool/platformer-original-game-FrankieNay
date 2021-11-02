@@ -55,6 +55,6 @@ public class Level2 extends World
         addObject(health3,56,20);
         Health health4 = new Health();
         addObject(health4,89,20);
-        Greenfoot.playSound("shboom.wav");
+        Greenfoot.playSound("zapsplat_024.mp3");
     }
 }
